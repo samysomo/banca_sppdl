@@ -8,6 +8,7 @@ import { plaidClient } from "../plaid"
 import { CountryCode, ProcessorTokenCreateRequest, ProcessorTokenCreateRequestProcessorEnum, Products } from "plaid"
 import { addFundingSource, createDwollaCustomer } from "./dwolla.actions"
 import { revalidatePath } from "next/cache"
+import { string } from "zod"
 
 const {
     APPWRITE_DATABASE_ID: DATABASE_ID,
@@ -17,7 +18,7 @@ const {
 
 export const getUserInfo = async({userId}: getUserInfoProps) => {
     try {
-        const {database} = await createAdminClient()
+        const {database} = await createAdminClient();
         const user = await database.listDocuments(
             DATABASE_ID!,
             USER_COLLECTION_ID!,
@@ -40,7 +41,7 @@ export const signIn = async ({email, password} : signInProps) => {
         sameSite: "strict",
         secure: true,
         });
-        const user = await getUserInfo({userId: session})
+        const user = await getUserInfo({userId : session.userId})
         return parseStringify(user);
     } catch (error) {
         console.log(error)

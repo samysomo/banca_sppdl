@@ -1,8 +1,11 @@
+import Link from 'next/link'
 import React from 'react'
 
 const TransactionHistory = () => {
   return (
-    <div>TransactionHistory</div>
+    <div>
+      Transaction History
+    </div>
   )
 }
 
