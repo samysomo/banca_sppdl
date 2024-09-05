@@ -7,7 +7,7 @@ export const sidebarLinks = [
   {
     imgURL: "/icons/dollar-circle.svg",
     route: "/my-banks",
-    label: "My Banks",
+    label: "My Accounts",
   },
   {
     imgURL: "/icons/transaction.svg",
@@ -135,3 +135,125 @@ export const transactionCategoryStyles = {
     chipBackgroundColor: "bg-inherit",
   },
 };
+
+export const testTransactions: Transaction[] = [
+  {
+    transaction_id: "tx001",
+    transaction_type: "deposit",
+    account_id: "acc123",
+    amount: 1500.00,
+    transaction_date: "2024-09-01",
+    descripcion: "Depósito de salario"
+  },
+  {
+    transaction_id: "tx002",
+    transaction_type: "withdrawal",
+    account_id: "acc124",
+    amount: 200.00,
+    transaction_date: "2024-09-02",
+    descripcion: "Retiro en cajero automático"
+  },
+  {
+    transaction_id: "tx003",
+    transaction_type: "transfer",
+    account_id: "acc125",
+    amount: 500.00,
+    transaction_date: "2024-09-03",
+    descripcion: "Transferencia a cuenta de ahorro"
+  },
+  {
+    transaction_id: "tx004",
+    transaction_type: "payment",
+    account_id: "acc126",
+    amount: 100.00,
+    transaction_date: "2024-09-04",
+    descripcion: "Pago de factura de electricidad"
+  },
+  {
+    transaction_id: "tx005",
+    transaction_type: "deposit",
+    account_id: "acc127",
+    amount: 250.00,
+    transaction_date: "2024-09-05",
+    descripcion: "Depósito de venta de artículos"
+  }
+];
+
+export const testAccounts: Account[] = [
+  {
+    account_id: 101,
+    balance: 2500.50,
+    user_id: 1,
+    account_type: "checking"
+  },
+  {
+    account_id: 102,
+    balance: 1500.00,
+    user_id: 2,
+    account_type: "savings"
+  },
+  {
+    account_id: 103,
+    balance: 350.75,
+    user_id: 3,
+    account_type: "business"
+  },
+  {
+    account_id: 104,
+    balance: 1000.00,
+    user_id: 4,
+    account_type: "personal"
+  },
+  {
+    account_id: 105,
+    balance: 5000.00,
+    user_id: 5,
+    account_type: "savings"
+  }
+];
+
+declare type User = {
+  email: string;
+  userId: string;
+  first_name: string;
+  last_name: string;
+  username: string;
+};
+
+export const testUsers: User[] = [
+  {
+    email: "juan.perez@example.com",
+    userId: "u001",
+    first_name: "Juan",
+    last_name: "Perez",
+    username: "juanp"
+  },
+  {
+    email: "maria.garcia@example.com",
+    userId: "u002",
+    first_name: "Maria",
+    last_name: "Garcia",
+    username: "mgarcia"
+  },
+  {
+    email: "carlos.lopez@example.com",
+    userId: "u003",
+    first_name: "Carlos",
+    last_name: "Lopez",
+    username: "clopez"
+  },
+  {
+    email: "ana.sanchez@example.com",
+    userId: "u004",
+    first_name: "Ana",
+    last_name: "Sanchez",
+    username: "asanchez"
+  },
+  {
+    email: "luis.martinez@example.com",
+    userId: "u005",
+    first_name: "Luis",
+    last_name: "Martinez",
+    username: "lmartinez"
+  }
+];

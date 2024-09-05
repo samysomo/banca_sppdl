@@ -17,38 +17,30 @@ const TransactionsTable = ({transactions} : TransactionTableProps) => {
             <TableRow>
                 <TableHead className="px-2">Transaction</TableHead>
                 <TableHead className="px-2">Amount</TableHead>
-                <TableHead className="px-2">Status</TableHead>
                 <TableHead className="px-2">Date</TableHead>
-                <TableHead className="px-2 max-md:hidden">Channel</TableHead>
-                <TableHead className="px-2 max-md:hidden">Category</TableHead>
+                <TableHead className="px-2">Type</TableHead>
             </TableRow>
         </TableHeader>
         <TableBody>
             {transactions.map((transaction : Transaction) => {
-                const status = getTransactionStatus(new Date(transaction.date))
                 const amount = formatAmount(transaction.amount)
-                const isDebit = transaction.type === "debit"
-                const isCredit = transaction.type === "credit"
                 return (
-                    <TableRow key={transaction.id}>
+                    <TableRow key={transaction.transaction_id}>
                         <TableCell>
                             <div>
                                 <h1>
-                                    {removeSpecialCharacters(transaction.name)}
+                                    {transaction.descripcion}
                                 </h1>
                             </div>
                         </TableCell>
                         <TableCell>
-                            {isDebit ? `-${amount}` : isCredit ? amount : amount}
+                            {amount}
                         </TableCell>
                         <TableCell>
-                            {status}
+                            {transaction.transaction_date}
                         </TableCell>
                         <TableCell>
-                            {formatDateTime(new Date(transaction.date)).dateTime}
-                        </TableCell>
-                        <TableCell>
-                            {transaction.paymentChannel}
+                            {transaction.transaction_type}
                         </TableCell>
                     </TableRow>
                 )

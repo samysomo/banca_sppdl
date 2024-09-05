@@ -1,24 +1,13 @@
+
 import HeaderBox from '@/components/HeaderBox'
 import RecentTransactions from '@/components/RecentTransactions'
 import RightSidebar from '@/components/RightSidebar'
 import TotalBalanceBox from '@/components/TotalBalanceBox'
-import { getAccount, getAccounts } from '@/lib/actions/bank.actions'
+import { testAccounts, testTransactions, testUsers } from '@/constants'
 import { getLoggedInUser } from '@/lib/actions/user.actions'
-import React from 'react'
+import React, { useState } from 'react'
 
-const Home = async ({searchParams : {id, page}}: SearchParamProps) => {
-    const currentPage = Number(page as string) || 1;
-    const loggedIn = await getLoggedInUser()
-    const accounts = await getAccounts({userId: loggedIn.$id})
-    if(!accounts) return
-
-    const accountData = accounts?.data;
-    const appwriteItemId = (id as string) || accountData[0]?.appwriteItemId;
-    const account = await getAccount({appwriteItemId})
-    console.log({
-        accountData,
-        account
-    })
+const Home = () => {
   return (
     <section className='home'>
         <div className='home-content'>
@@ -26,26 +15,22 @@ const Home = async ({searchParams : {id, page}}: SearchParamProps) => {
                 <HeaderBox
                     type="greeting"
                     title="Welcome"
-                    user={loggedIn?.firstName || "Guest"}
+                    user={testUsers[0].first_name}
                     subtext="Access and manage your account and transactions efficiently"
                 />
                 <TotalBalanceBox
-                    accounts={accountData}
-                    totalBanks={accounts?.totalBanks}
-                    totalCurrentBalance={accounts?.totalCurrentBalance}
+                    accounts={testAccounts}
+                    totalCurrentBalance={2000}
                 />
             </header>
             <RecentTransactions 
-                accounts={accountData}
-                transactions={account?.transactions}
-                appwriteItemId={appwriteItemId}
-                page={currentPage}
+                transactions={testTransactions}
             />
         </div>
         <RightSidebar
-            user={loggedIn}
-            transactions={accounts?.transactions}
-            banks={accountData?.slice(0, 2)}
+            user={testUsers[0]}
+            transactions={testTransactions}
+            account={testAccounts[0]}
         />
     </section>
   )

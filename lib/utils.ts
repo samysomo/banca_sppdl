@@ -130,45 +130,6 @@ export function getAccountTypeColors(type: AccountTypes) {
   }
 }
 
-export function countTransactionCategories(
-  transactions: Transaction[]
-): CategoryCount[] {
-  const categoryCounts: { [category: string]: number } = {};
-  let totalCount = 0;
-
-  // Iterate over each transaction
-  transactions &&
-    transactions.forEach((transaction) => {
-      // Extract the category from the transaction
-      const category = transaction.category;
-
-      // If the category exists in the categoryCounts object, increment its count
-      if (categoryCounts.hasOwnProperty(category)) {
-        categoryCounts[category]++;
-      } else {
-        // Otherwise, initialize the count to 1
-        categoryCounts[category] = 1;
-      }
-
-      // Increment total count
-      totalCount++;
-    });
-
-  // Convert the categoryCounts object to an array of objects
-  const aggregatedCategories: CategoryCount[] = Object.keys(categoryCounts).map(
-    (category) => ({
-      name: category,
-      count: categoryCounts[category],
-      totalCount,
-    })
-  );
-
-  // Sort the aggregatedCategories array by count in descending order
-  aggregatedCategories.sort((a, b) => b.count - a.count);
-
-  return aggregatedCategories;
-}
-
 export function extractCustomerIdFromUrl(url: string) {
   // Split the URL string by '/'
   const parts = url.split("/");
@@ -197,15 +158,9 @@ export const getTransactionStatus = (date: Date) => {
 
 export const authFormSchema =  (type : string) => z.object({
   //Sign Up
-  address1: type === "sign-in" ? z.string().optional() :  z.string().max(50),
-  city: type === "sign-in" ? z.string().optional() :  z.string().max(50),
-  state: type === "sign-in" ? z.string().optional() :  z.string().min(2),
-  dateOfBirth: type === "sign-in" ? z.string().optional() :  z.string().min(3),
-  postalCode: type === "sign-in" ? z.string().optional() :  z.string().min(3).max(6),
-  ssn: type === "sign-in" ? z.string().optional() :  z.string().min(3),
-  firstName: type === "sign-in" ? z.string().optional() :  z.string().min(3),
-  lastName: type === "sign-in" ? z.string().optional() :  z.string().min(3),
-
+  first_name: type === "sign-in" ? z.string().optional() :  z.string().min(3),
+  last_name: type === "sign-in" ? z.string().optional() :  z.string().min(3),
+  username: type === "sign-in" ? z.string().optional() :  z.string().min(3),
 
   //Sign In & Sign Up
   email: z.string().email(),

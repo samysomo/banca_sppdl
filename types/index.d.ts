@@ -8,14 +8,9 @@ declare type SearchParamProps = {
 // ========================================
 
 declare type SignUpParams = {
-  firstName: string;
-  lastName: string;
-  address1: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  dateOfBirth: string;
-  ssn: string;
+  first_name: string;
+  last_name: string;
+  username: string;
   email: string;
   password: string;
 };
@@ -26,20 +21,11 @@ declare type LoginUser = {
 };
 
 declare type User = {
-  $id: string;
   email: string;
   userId: string;
-  dwollaCustomerUrl: string;
-  dwollaCustomerId: string;
-  firstName: string;
-  lastName: string;
-  name: string;
-  address1: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  dateOfBirth: string;
-  ssn: string;
+  first_name: string;
+  last_name: string;
+  username: string;
 };
 
 declare type NewUserParams = {
@@ -50,36 +36,19 @@ declare type NewUserParams = {
 };
 
 declare type Account = {
-  id: string;
-  availableBalance: number;
-  currentBalance: number;
-  officialName: string;
-  mask: string;
-  institutionId: string;
-  name: string;
-  type: string;
-  subtype: string;
-  appwriteItemId: string;
-  sharableId: string;
+  account_id: number;
+  balance: number;
+  user_id: number;
+  account_type: string;
 };
 
 declare type Transaction = {
-  id: string;
-  $id: string;
-  name: string;
-  paymentChannel: string;
-  type: string;
-  accountId: string;
+  transaction_id: string;
+  transaction_type: string;
+  account_id: string;
   amount: number;
-  pending: boolean;
-  category: string;
-  date: string;
-  image: string;
-  type: string;
-  $createdAt: string;
-  channel: string;
-  senderBankId: string;
-  receiverBankId: string;
+  transaction_date: string;
+  descripcion: string;
 };
 
 declare type Bank = {
@@ -205,7 +174,6 @@ declare interface BankTabItemProps {
 
 declare interface TotlaBalanceBoxProps {
   accounts: Account[];
-  totalBanks: number;
   totalCurrentBalance: number;
 }
 
@@ -217,7 +185,7 @@ declare interface FooterProps {
 declare interface RightSidebarProps {
   user: User;
   transactions: Transaction[];
-  banks: Bank[] & Account[];
+  account: Account;
 }
 
 declare interface SiderbarProps {
@@ -225,10 +193,7 @@ declare interface SiderbarProps {
 }
 
 declare interface RecentTransactionsProps {
-  accounts: Account[];
   transactions: Transaction[];
-  appwriteItemId: string;
-  page: number;
 }
 
 declare interface TransactionHistoryTableProps {
