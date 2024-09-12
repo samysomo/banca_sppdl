@@ -21,7 +21,7 @@ const Sidebar = ({user}: SiderbarProps) => {
                     alt='Horizon Logo'
                     className='size-[24px] max-xl:size-14'
                 />
-                <h1 className='sidebar-logo'>Horizon</h1>
+                <h1 className='sidebar-logo'>SPPDL</h1>
             </Link>
             {sidebarLinks.map((link) => {
                 const isActive = pathname === link.route || pathname.startsWith(`${link.route}/`)

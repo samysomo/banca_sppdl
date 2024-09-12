@@ -202,7 +202,7 @@ declare interface TransactionHistoryTableProps {
 }
 
 declare interface CategoryBadgeProps {
-  category: string;
+  type: string;
 }
 
 declare interface TransactionTableProps {

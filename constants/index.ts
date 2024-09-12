@@ -91,14 +91,14 @@ export const topCategoryStyles = {
   },
 };
 
-export const transactionCategoryStyles = {
-  "Food and Drink": {
+export const transactionTypeStyles = {
+  withdrawal: {
     borderColor: "border-pink-600",
     backgroundColor: "bg-pink-500",
     textColor: "text-pink-700",
     chipBackgroundColor: "bg-inherit",
   },
-  Payment: {
+  deposit: {
     borderColor: "border-success-600",
     backgroundColor: "bg-green-600",
     textColor: "text-success-700",
@@ -110,7 +110,7 @@ export const transactionCategoryStyles = {
     textColor: "text-success-700",
     chipBackgroundColor: "bg-inherit",
   },
-  Transfer: {
+  payment: {
     borderColor: "border-red-700",
     backgroundColor: "bg-red-700",
     textColor: "text-red-700",
@@ -122,7 +122,7 @@ export const transactionCategoryStyles = {
     textColor: "text-[#344054]",
     chipBackgroundColor: "bg-[#F2F4F7]",
   },
-  Success: {
+  transfer: {
     borderColor: "border-[#12B76A]",
     backgroundColor: "bg-[#12B76A]",
     textColor: "text-[#027A48]",

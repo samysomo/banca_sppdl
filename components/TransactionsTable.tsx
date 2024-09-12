@@ -7,8 +7,25 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
-import { formatAmount, formatDateTime, getTransactionStatus, removeSpecialCharacters } from "@/lib/utils"
+import { transactionTypeStyles } from "@/constants"
+import { cn, formatAmount, formatDateTime, getTransactionStatus, removeSpecialCharacters } from "@/lib/utils"
   
+
+
+const CategoryBadge = ({type}: CategoryBadgeProps) => {
+    const {
+        borderColor,
+        backgroundColor,
+        textColor,
+        chipBackgroundColor
+    } = transactionTypeStyles[type as keyof typeof transactionTypeStyles] || transactionTypeStyles.default
+    return (
+        <div className={cn("category-badge", borderColor, chipBackgroundColor)}>
+            <div className={cn("size-2 rounded-full", backgroundColor)}></div>
+            <p className={cn("text-[12px] font-medium", textColor)}>{type}</p>
+        </div>
+    )
+}
 
 const TransactionsTable = ({transactions} : TransactionTableProps) => {
   return (
@@ -34,13 +51,18 @@ const TransactionsTable = ({transactions} : TransactionTableProps) => {
                             </div>
                         </TableCell>
                         <TableCell>
-                            {amount}
+                            {transaction.transaction_type === "deposit"
+                                ? amount
+                                :  `-${amount}`
+                            }
                         </TableCell>
                         <TableCell>
                             {transaction.transaction_date}
                         </TableCell>
                         <TableCell>
-                            {transaction.transaction_type}
+                            <CategoryBadge
+                                type={transaction.transaction_type}
+                            />
                         </TableCell>
                     </TableRow>
                 )
