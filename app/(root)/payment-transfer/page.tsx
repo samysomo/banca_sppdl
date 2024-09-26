@@ -3,7 +3,7 @@ import PaymentTransferForm from '@/components/PaymentTransferForm'
 import { testAccounts } from '@/constants'
 import React from 'react'
 
-const Transfer = async () => {
+const Transfer = () => {
 
   return (
     <section className='payment-transfer'>
