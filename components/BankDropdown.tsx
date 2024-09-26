@@ -20,7 +20,6 @@ export const BankDropdown = ({
   setValue,
   otherStyles,
 }: BankDropdownProps) => {
-  const searchParams = useSearchParams();
   const router = useRouter();
   const [selected, setSelected] = useState(accounts[0]);
 
