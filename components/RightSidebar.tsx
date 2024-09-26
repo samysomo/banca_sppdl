@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import BankCard from './BankCard'
 
-const RightSidebar = ({user, transactions, account}: RightSidebarProps) => {
+const RightSidebar = ({user, transactions, account, openModal}: RightSidebarProps) => {
   return (
     <aside className='right-sidebar'>
         <section className='flex flex-col pb-8'>
@@ -25,7 +25,7 @@ const RightSidebar = ({user, transactions, account}: RightSidebarProps) => {
         <section className='banks'>
             <div className='flex w-full justify-between'>
                 <h2 className='header-2'>My Accounts</h2>
-                <Link href="/" className='flex gap-2'>
+                <button className='flex gap-2' onClick={() => openModal(true)}>
                     <Image
                         src="/icons/plus.svg"
                         width={20}
@@ -35,7 +35,7 @@ const RightSidebar = ({user, transactions, account}: RightSidebarProps) => {
                     <h2 className='text-14 font-semibold text-gray-600'>
                         Add Bank
                     </h2>
-                </Link>
+                </button>
             </div>
             {account && (
                 <div className='relative flex flex-1 flex-col items-center justify-center gap-5'>

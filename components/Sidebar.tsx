@@ -5,8 +5,11 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Footer from './Footer'
+import { useRouter } from 'next/navigation'
+import { getUserInfo } from '@/lib/actions/user.actions'
+import { useAppStore } from '@/store'
 
 const Sidebar = ({user}: SiderbarProps) => {
     const pathname = usePathname()

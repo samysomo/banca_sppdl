@@ -22,11 +22,12 @@ import CustomInput from './CustomInput';
 import { authFormSchema } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
+import { getUserInfo} from '@/lib/actions/user.actions';
+import { apiClient } from '@/lib/apiClient';
+import jwt from "jsonwebtoken"
 
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
-  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const formSchema = authFormSchema(type);
@@ -35,46 +36,71 @@ const AuthForm = ({ type }: { type: string }) => {
     const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-        email: "",
+        username: "",
         password: ''
       },
     })
    
     // 2. Define a submit handler.
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-      router.push("/")
-      //setIsLoading(true);
+      setIsLoading(true);
 
-      // try {
+      try {
         
-      //   if(type === 'sign-up') {
-      //     const userData = {
-      //       first_name: data.firstName!,
-      //       last_name: data.lastName!,
-      //       username: data.username!,
-      //       email: data.email,
-      //       password: data.password
-      //     }
+        if(type === 'sign-up') {
+          const userData = {
+            first_name: data.first_name!,
+            last_name: data.last_name!,
+            username: data.username!,
+            email: data.email,
+            password: data.password
+          }
 
-      //     const newUser = await signUp(userData);
+          const response = await apiClient.post(
+            "/users/signup", userData
+          );
+          console.log(response)
 
-      //     setUser(newUser);
-      //   }
+          if(response.data.code === 201){
+            router.push("/sign-in")
+          }
+        }
 
-      //   if(type === 'sign-in') {
-      //     const response = await signIn({
-      //       email: data.email,
-      //       password: data.password,
-      //     })
+        if(type === 'sign-in') {
+          const userData = {
+            username: data.username!,
+            password: data.password
+          }
+          
 
-      //     if(response) router.push('/')
-      //   }
+          const response = await apiClient.post(
+            "/users/login", userData
+          );
+          console.log(response)
+          if(response.data.code === 200){
+            const token = response.data.message;
+            if (token) {
+              // Decodificar el token para extraer la fecha de expiración
+              const decodedToken: any = jwt.decode(token);
+              const expirationTime = decodedToken.exp * 1000; // Convertir a milisegundos
         
-      // } catch (error) {
-      //   console.log(error);
-      // } finally {
-      //   setIsLoading(false);
-      // }
+              // Guardar token y fecha de expiración en localStorage
+              localStorage.setItem("token", token);
+              localStorage.setItem("tokenExpiration", expirationTime.toString());
+        
+              router.push("/");
+            }  
+          } else {
+            console.log("Usuario no encontrado")
+          }
+
+        }
+        
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
   return (
@@ -92,27 +118,16 @@ const AuthForm = ({ type }: { type: string }) => {
 
           <div className="flex flex-col gap-1 md:gap-3">
             <h1 className="text-24 lg:text-36 font-semibold text-gray-900">
-              {user 
-                ? 'Link Account'
-                : type === 'sign-in'
+              {type === 'sign-in'
                   ? 'Sign In'
                   : 'Sign Up'
               }
               <p className="text-16 font-normal text-gray-600">
-                {user 
-                  ? 'Link your account to get started'
-                  : 'Please enter your details'
-                }
+                Please enter your details
               </p>  
             </h1>
           </div>
       </header>
-      {user ? (
-        <div className="flex flex-col gap-4">
-          
-        </div>
-      ): (
-        <>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               {type === 'sign-up' && (
@@ -121,12 +136,12 @@ const AuthForm = ({ type }: { type: string }) => {
                     <CustomInput control={form.control} name='first_name' label="First Name" placeholder='Enter your first name' />
                     <CustomInput control={form.control} name='last_name' label="Last Name" placeholder='Enter your first name' />
                   </div>
-                  <CustomInput control={form.control} name='username' label="Username" placeholder='Enter your specific address' />
+                  <CustomInput control={form.control} name='email' label="Email" placeholder='Enter your email' />
+                 
                 </>
               )}
 
-              <CustomInput control={form.control} name='email' label="Email" placeholder='Enter your email' />
-
+              <CustomInput control={form.control} name='username' label="Username" placeholder='Enter your specific address' />
               <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' />
 
               <div className="flex flex-col gap-4">
@@ -153,8 +168,6 @@ const AuthForm = ({ type }: { type: string }) => {
               {type === 'sign-in' ? 'Sign up' : 'Sign in'}
             </Link>
           </footer>
-        </>
-      )}
     </section>
   )
 }

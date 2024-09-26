@@ -186,6 +186,7 @@ declare interface RightSidebarProps {
   user: User;
   transactions: Transaction[];
   account: Account;
+  openModal: Dispatch<SetStateAction<boolean>>;
 }
 
 declare interface SiderbarProps {
@@ -265,7 +266,7 @@ declare interface signInProps {
 }
 
 declare interface getUserInfoProps {
-  userId: string;
+  token: string;
 }
 
 declare interface exchangePublicTokenProps {

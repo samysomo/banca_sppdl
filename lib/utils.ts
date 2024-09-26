@@ -160,9 +160,18 @@ export const authFormSchema =  (type : string) => z.object({
   //Sign Up
   first_name: type === "sign-in" ? z.string().optional() :  z.string().min(3),
   last_name: type === "sign-in" ? z.string().optional() :  z.string().min(3),
-  username: type === "sign-in" ? z.string().optional() :  z.string().min(3),
+  email: type === "sign-in" ? z.string().optional() : z.string().email(),
+  
 
   //Sign In & Sign Up
-  email: z.string().email(),
+  username: z.string().min(3),
+  password: z.string().min(8),
+})
+
+
+export const createAccountFormSchema =  () => z.object({
+
+  //Sign In & Sign Up
+  username: z.string().min(3),
   password: z.string().min(8),
 })

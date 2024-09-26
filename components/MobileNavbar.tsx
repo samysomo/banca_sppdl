@@ -14,9 +14,12 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import Footer from "./Footer"
+import { useRouter } from "next/navigation"
+import { useAppStore } from "@/store"
 
 const MobileNavbar = ({user} : MobileNavProps) => {
-    const pathname = usePathname()
+    const pathname = usePathname();
+    
   return (
     <section className="w-full max-w-[264px]">
         <Sheet>

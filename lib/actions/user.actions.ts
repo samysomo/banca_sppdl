@@ -5,78 +5,33 @@ import { encryptId, extractCustomerIdFromUrl, parseStringify } from "../utils"
 import { revalidatePath } from "next/cache"
 import { string } from "zod"
 import axios from 'axios';
+import { apiClient } from "../apiClient"
 
 const {
   API_URL : API_URL
 } = process.env;
 
-export const getUserInfo = async({userId}: getUserInfoProps) => {
+export const getUserInfo = async({token}: getUserInfoProps) => {
     try {
-        
+        const getUser : any = await apiClient.get(
+          "/updateUsers/user", {
+            headers: {
+              Authorization: `Bearer ${token}`
+            },
+            
+          }
+        );
+        if (getUser.data) {
+          console.log(getUser)
+          return getUser.data.message
+        }
+
     } catch (error) {
         console.log(error)
     }
 }
 
-export const signIn = async ({email, password} : signInProps) => {
-    try {
-      const response = await axios.post(`${API_URL}/login`, {
-        password,
-        email,
-      });
-  
-      // Manejar la respuesta según lo que devuelva la API
-      if (response.status === 201) {
-        console.log('Usuario registrado correctamente:', response.data);
-        return response.data;
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        // Manejar errores específicos de axios
-        console.error('Error en la solicitud de Axios:', error.response?.data || error.message);
-      } else {
-        // Manejar otros errores
-        console.error('Error', error);
-      }
-      throw error;
-    }
-}
 
-export const signUp = async ({...userData}: SignUpParams) => {
-  const {username, password, email, first_name, last_name} = userData
-  try {
-    const response = await axios.post(`${API_URL}/signin`, {
-      username,
-      password,
-      email,
-      first_name,
-      last_name,
-    });
-
-    // Manejar la respuesta según lo que devuelva la API
-    if (response.status === 201) {
-      console.log('Usuario registrado correctamente:', response.data);
-      return response.data;
-    }
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      // Manejar errores específicos de axios
-      console.error('Error en la solicitud de Axios:', error.response?.data || error.message);
-    } else {
-      // Manejar otros errores
-      console.error('Error', error);
-    }
-    throw error;
-  }
-}
-
-export async function getLoggedInUser() {
-    try {
-    
-    } catch (error) {
-      return null;
-    }
-  }
 
 export const logoutAccount = async () => {
     try {
