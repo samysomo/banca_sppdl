@@ -9,7 +9,7 @@ import { apiClient } from '@/lib/apiClient';
 import CustomInput from '@/components/CustomInput';
 import { Form } from '@/components/ui/form';
 import { completeRegistrationSchema } from '@/lib/utils';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import CompleteRegistrationInput from '@/components/CompleteRegistrationInput';
 import { Loader2 } from 'lucide-react';
 
