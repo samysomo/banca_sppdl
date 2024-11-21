@@ -24,17 +24,17 @@ const CompleteRegistration = () => {
     const googleId = params.get("googleId")
     const email = params.get("email")
 
-    if (!email) return null
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
         username: "",
         first_name: "",
         last_name: "",
-        email: email,
+        email: email ? email : "",
         },
     })
+
+    if (!email || !googleId) return <div>No hay params</div>
 
     const onSubmit = async (data: any) => {
       try {
