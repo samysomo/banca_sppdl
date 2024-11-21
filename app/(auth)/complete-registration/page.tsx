@@ -44,7 +44,7 @@ const CompleteRegistration = () => {
         ...data
       }
       console.log(registration)
-      const response = await apiClient.post('/complete-registration', registration);
+      const response = await apiClient.post('/googlelogin/complete-registration', registration);
       console.log(response.data);
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
