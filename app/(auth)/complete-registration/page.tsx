@@ -35,19 +35,16 @@ const CompleteRegistration = () => {
     },
   });
 
-  useEffect(() => {
-    console.log("Errores de validación:", form.formState.errors); // Log de errores
-  }, [form.formState.errors]);
-
   const onSubmit = async (data: any) => {
-    console.log("Formulario enviado con datos:", data); // Log de prueba
     try {
       setIsLoading(true);
-      const response = await apiClient.post('/complete-registration', {
-        ...data,
-        email,
+      const registration = {
         googleId,
-      });
+        email,
+        ...data
+      }
+      console.log(registration)
+      const response = await apiClient.post('/complete-registration', registration);
       console.log(response.data);
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
