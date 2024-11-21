@@ -12,27 +12,28 @@ const GoogleCallback = () => {
       // Obtén los parámetros de la URL
       const params = new URLSearchParams(window.location.search);
       console.log(params)
-      const token = params.get('token');
       const isNewUser = params.get('isNewUser') === 'true';
-
-      if (token) {
-        // Almacena el token JWT
-        localStorage.setItem('token', token);
-
-        // Decodifica el token y almacena su expiración
-        const decodedToken: any = jwt.decode(token);
-        const expirationTime = decodedToken.exp * 1000; // Milisegundos
-        localStorage.setItem('tokenExpiration', expirationTime.toString());
-
-        // Redirige según el estado del usuario
-        if (isNewUser) {
-          router.push('/complete-registration');
-        } else {
-          router.push('/');
-        }
+      if (isNewUser) {
+        const googleID = params.get("googleId")
+        const email = params.get("email")
+        router.push(`/complete-registration?googleId=${googleID}&email=${email}`);
       } else {
-        console.error('No token received');
-        router.push('/sign-in');
+        const token = params.get("token")
+        if (token) {
+          // Almacena el token JWT
+          localStorage.setItem('token', token);
+  
+          // Decodifica el token y almacena su expiración
+          const decodedToken: any = jwt.decode(token);
+          const expirationTime = decodedToken.exp * 1000; // Milisegundos
+          localStorage.setItem('tokenExpiration', expirationTime.toString());
+  
+          // Redirige según el estado del usuario
+          router.push("/")
+        } else {
+          console.error('No token received');
+          router.push('/sign-in');
+        }
       }
     };
 

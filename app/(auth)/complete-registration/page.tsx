@@ -19,34 +19,26 @@ const CompleteRegistration = () => {
     const [isLoading, setIsLoading] = useState(false);
     const formSchema = completeRegistrationSchema()
 
+    const params = new URLSearchParams(window.location.search);
+    console.log(params)
+    const googleId = params.get("googleId")
+    const email = params.get("email")
+
+    if (!email) return null
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
         username: "",
         first_name: "",
         last_name: "",
+        email: email,
         },
     })
 
     const onSubmit = async (data: any) => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          throw new Error('Token not found');
-        }
-    
-        // Decodifica el token y verifica el tipo
-        const decodedToken = jwt.decode(token);
-        if (!decodedToken || typeof decodedToken === 'string') {
-          throw new Error('Invalid token format');
-        }
-    
-        // Extrae el googleId del token
-        const { googleId } = decodedToken as jwt.JwtPayload & { googleId: string };
-        if (!googleId) {
-          throw new Error('googleId not found in token');
-        }
-    
+        setIsLoading(true)
         const response = await apiClient.post('/complete-registration', {
           ...data,
           googleId,
@@ -58,6 +50,8 @@ const CompleteRegistration = () => {
         }
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false)
       }
     };
 
