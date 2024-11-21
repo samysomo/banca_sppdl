@@ -1,7 +1,6 @@
 "use client"
 import MobileNavbar from "@/components/MobileNavbar";
 import Sidebar from "@/components/Sidebar";
-import { testUsers } from "@/constants";
 import { useAppStore } from "@/store";
 import Image from "next/image";
 import { redirect } from "next/navigation";

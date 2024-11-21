@@ -1,7 +1,6 @@
 "use client"
 import HeaderBox from '@/components/HeaderBox'
 import PaymentTransferForm from '@/components/PaymentTransferForm'
-import { testAccounts } from '@/constants'
 import { useAppStore } from '@/store'
 import { useRouter } from 'next/navigation'
 import React from 'react'
