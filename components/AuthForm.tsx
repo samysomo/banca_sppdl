@@ -25,6 +25,7 @@ import { useRouter } from 'next/navigation';
 import { getUserInfo} from '@/lib/actions/user.actions';
 import { apiClient } from '@/lib/apiClient';
 import jwt from "jsonwebtoken"
+import { FaGoogle } from 'react-icons/fa';
 
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
@@ -167,7 +168,19 @@ const AuthForm = ({ type }: { type: string }) => {
             <Link href={type === 'sign-in' ? '/sign-up' : '/sign-in'} className="form-link">
               {type === 'sign-in' ? 'Sign up' : 'Sign in'}
             </Link>
+            
           </footer>
+          <Button
+               onClick={async () => {
+                const googleAuthUrl = `https://bancasppdl.click/googlelogin/auth/google`;
+                window.location.href = googleAuthUrl;
+                }
+               }
+              className="form-btn"
+            >
+              <p>Sign In with Google</p>
+              <FaGoogle className='5xl ml-5'></FaGoogle>
+            </Button>
     </section>
   )
 }

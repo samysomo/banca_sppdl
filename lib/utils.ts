@@ -180,3 +180,9 @@ export const makeTransactionFormSchema = () => z.object({
   amount: z.string(),
   description: z.string().min(5)
 })
+
+export const completeRegistrationSchema = () => z.object({
+  username: z.string().min(3,'Username is required'),
+  first_name: z.string().min(3,'First Name is required'),
+  last_name: z.string().min(3,'Last Name is required'),
+});
