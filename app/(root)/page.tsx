@@ -86,11 +86,11 @@ const Home = () => {
               type="greeting"
               title="Welcome"
               user={userInfo.first_name}
-              subtext="No tienes cuentas creadas aún"
+              subtext="Create an account as soon as you can!"
             />
           </header>
           <div>
-            <p>No tienes ninguna cuenta, crea una para empezar a administrar tus transacciones.</p>
+            <p>You don't have any accounts yet, create one to start managing your finances.</p>
           </div>
         </div>
         <RightSidebar

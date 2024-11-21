@@ -17,7 +17,7 @@ const ServicesPage = () => {
           </h2>
         </div>
         <div className='flex w-full items-center justify-center mt-10'>
-          <div className='grid grid-cols-4 gap-8'>
+          <div className='grid md:grid-cols-4 grid-cols-2 gap-8'>
             {Services.map((service) => (
               <ServiceCard tittle={service.serviceName} key={service.serviceName}/>
             ))}

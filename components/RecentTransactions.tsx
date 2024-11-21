@@ -6,9 +6,9 @@ import { BankTabItem } from './BankTabItem'
 import BankInfo from './BankInfo'
 
 const RecentTransactions = ({
-    accounts = [],
+    accounts,
 }: RecentTransactionsProps) => {
-  if ((!accounts) || typeof accounts === "string") return <div>Aun no tienes ninguna cuenta</div>
+  if ((!accounts) || typeof accounts === "string" || accounts.length === 0) return <div>You don't have any accounts yet, create one!</div>
   return (
     <section className='recent-transactions'>
       <header className='flex items-center justify-between'>

@@ -10,8 +10,6 @@ import React, { useEffect, useState } from 'react'
 
 const MyBanks = () => {
   const router = useRouter()
-  const [accounts, setAccounts] = useState([]);
-  const [error, setError] = useState<string>("");
   const {userInfo, userAccounts} = useAppStore()
   const [showCreateAccountModal, setShowCreateAccountModal] = useState(false);
   
@@ -69,6 +67,10 @@ const MyBanks = () => {
                 userName={`${userInfo?.first_name } ${userInfo?.last_name}` || "Usuario"}
               />
             ))}
+            { userAccounts.length === 0 && (
+              <h2 className='w-full text-center'>You don't have any accounts yet, create one!</h2>
+            )
+            }
           </div>
         </div>
       </div>

@@ -54,7 +54,7 @@ const TransactionsTable = ({account_id} : TransactionTableProps) => {
     }, [])
     
     if (!movements)return null
-    if((typeof movements === "string") || !movements) return <div className="text-center mt-10">No hay movimientos</div>
+    if((typeof movements === "string") || !movements) return <div className="text-center mt-10">No movements yet</div>
   return (
     <Table>
         <TableHeader className="bg-[#f9fafb]">
