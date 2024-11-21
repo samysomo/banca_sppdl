@@ -23,9 +23,9 @@ const CompleteRegistration = () => {
   useEffect(() => {
     // Solo se ejecuta en el cliente
     const params = new URLSearchParams(window.location.search);
-    console.log(params)
     setGoogleId(params.get('googleId'));
     setEmail(params.get('email'));
+    console.log(googleId , "& ", email)
   }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
