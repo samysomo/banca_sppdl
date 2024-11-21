@@ -21,7 +21,7 @@ type CreateAccountModalProps = {
 }
 
 const CreateAccountModal = ({isOpen, setShowCreateAccountModal} : CreateAccountModalProps) => {
-    if(!isOpen) return null
+    
     const [isLoading, setIsLoading] = useState(false);
     const formSchema = createAccountFormSchema();
 
@@ -32,6 +32,8 @@ const CreateAccountModal = ({isOpen, setShowCreateAccountModal} : CreateAccountM
             balance: 0
         },
       })
+
+    if(!isOpen) return null
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         setIsLoading(true);

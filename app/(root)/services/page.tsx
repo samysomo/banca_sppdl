@@ -19,7 +19,7 @@ const ServicesPage = () => {
         <div className='flex w-full items-center justify-center mt-10'>
           <div className='grid grid-cols-4 gap-8'>
             {Services.map((service) => (
-              <ServiceCard tittle={service.serviceName}/>
+              <ServiceCard tittle={service.serviceName} key={service.serviceName}/>
             ))}
           </div>
         </div>

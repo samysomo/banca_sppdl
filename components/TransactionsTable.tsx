@@ -11,7 +11,7 @@ import {
 import { transactionTypeStyles } from "@/constants"
 import { getTransactionsByAccountId } from "@/lib/actions/transaction.actions"
 import { cn, formatAmount, getTransactionStatus, removeSpecialCharacters } from "@/lib/utils"
-import { notFound } from "next/navigation"
+import { notFound, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { string } from "zod"
   
@@ -34,11 +34,15 @@ const CategoryBadge = ({type}: CategoryBadgeProps) => {
 
 const TransactionsTable = ({account_id} : TransactionTableProps) => {
     const [movements, setMovements] = useState<any>(null)
+    const router = useRouter()
     const token = localStorage.getItem("token")
-    if (!token) return notFound()
-    
+
     useEffect(() => {
       const getMovements = async() => {
+        if (!token) {
+            router.push("/sign-in")
+            return
+          };
         const transactions = await getTransactionsByAccountId({account_id, token})
         if (transactions) {
             setMovements(transactions)
