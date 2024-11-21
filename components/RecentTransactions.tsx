@@ -8,7 +8,7 @@ import BankInfo from './BankInfo'
 const RecentTransactions = ({
     accounts,
 }: RecentTransactionsProps) => {
-  if ((!accounts) || typeof accounts === "string" || accounts.length === 0) return <div>You don't have any accounts yet, create one!</div>
+  if ((!accounts) || typeof accounts === "string" || accounts.length === 0) return <div>You don&apos;t have any accounts yet, create one!</div>
   return (
     <section className='recent-transactions'>
       <header className='flex items-center justify-between'>

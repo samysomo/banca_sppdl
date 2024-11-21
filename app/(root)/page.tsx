@@ -90,7 +90,7 @@ const Home = () => {
             />
           </header>
           <div>
-            <p>You don't have any accounts yet, create one to start managing your finances.</p>
+            <p>You don&apos;t have any accounts yet, create one to start managing your finances.</p>
           </div>
         </div>
         <RightSidebar

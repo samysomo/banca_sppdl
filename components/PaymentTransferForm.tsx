@@ -43,7 +43,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
     },
   });
 
-  if (accounts.length === 0) return <div>You don't have any accounts yet, create one to start transfering!</div>
+  if (accounts.length === 0) return <div>You don&apos;t have any accounts yet, create one to start transfering!</div>
 
   const submit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true);

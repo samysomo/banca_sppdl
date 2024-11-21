@@ -13,27 +13,6 @@ const MyBanks = () => {
   const {userInfo, userAccounts} = useAppStore()
   const [showCreateAccountModal, setShowCreateAccountModal] = useState(false);
   
-  // if (!userAccounts){
-  //   const token = localStorage.getItem('token');
-  
-  //   useEffect(() => {
-  //     const fetchAccounts = async () => {
-  //       try {
-  //         if (!token) return;
-
-  //         const accountsData = await getAccounts({ token });
-  //         setAccounts(accountsData || []);
-  //       } catch (error) {
-  //         setError("Failed to fetch accounts");
-  //         console.error(error);
-  //       } finally {
-  //       }
-  //     };
-
-  //     fetchAccounts();
-  // }, []);
-  // }
-  
   if(!userAccounts) router.push("/")
   if(!userAccounts) return null
   
@@ -68,7 +47,7 @@ const MyBanks = () => {
               />
             ))}
             { userAccounts.length === 0 && (
-              <h2 className='w-full text-center'>You don't have any accounts yet, create one!</h2>
+              <h2 className='w-full text-center'>You don&apos;t have any accounts yet, create one!</h2>
             )
             }
           </div>
