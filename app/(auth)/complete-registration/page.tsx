@@ -28,26 +28,38 @@ const CompleteRegistration = () => {
         },
     })
 
-  const onSubmit = async (data: any) => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('Token not found');
+    const onSubmit = async (data: any) => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error('Token not found');
+        }
+    
+        // Decodifica el token y verifica el tipo
+        const decodedToken = jwt.decode(token);
+        if (!decodedToken || typeof decodedToken === 'string') {
+          throw new Error('Invalid token format');
+        }
+    
+        // Extrae el googleId del token
+        const { googleId } = decodedToken as jwt.JwtPayload & { googleId: string };
+        if (!googleId) {
+          throw new Error('googleId not found in token');
+        }
+    
+        const response = await apiClient.post('/complete-registration', {
+          ...data,
+          googleId,
+        });
+    
+        if (response.data.token) {
+          localStorage.setItem('token', response.data.token);
+          router.push('/');
+        }
+      } catch (error) {
+        console.error(error);
       }
-
-      const response = await apiClient.post('/complete-registration', {
-        ...data,
-        googleId: jwt.decode(token)?.googleId,
-      });
-
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-        router.push("/")
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    };
 
   return (
     <Form {...form}>
