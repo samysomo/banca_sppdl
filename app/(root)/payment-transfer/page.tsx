@@ -3,13 +3,20 @@ import HeaderBox from '@/components/HeaderBox'
 import PaymentTransferForm from '@/components/PaymentTransferForm'
 import { useAppStore } from '@/store'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const Transfer = () => {
   const {userAccounts} = useAppStore()
   const router = useRouter()
-  if (!userAccounts) router.push("/")
-  console.log(userAccounts)
+  useEffect(() => {
+    if (!userAccounts) {
+      router.push("/"); // Redirige si no hay cuentas
+    }
+  }, [userAccounts, router]);
+
+  if (!userAccounts) {
+    return null; // Muestra nada mientras redirige
+  }
   return (
     <section className='payment-transfer'>
       <HeaderBox
