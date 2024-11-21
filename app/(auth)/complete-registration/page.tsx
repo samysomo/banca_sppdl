@@ -18,14 +18,13 @@ const CompleteRegistration = () => {
   const [googleId, setGoogleId] = useState<string | null>(null);
   const [email, setEmail] = useState<string | null>(null);
 
+  const formSchema = completeRegistrationSchema();
+
   useEffect(() => {
-    // Solo se ejecuta en el cliente
     const params = new URLSearchParams(window.location.search);
     setGoogleId(params.get('googleId'));
     setEmail(params.get('email'));
   }, []);
-
-  const formSchema = completeRegistrationSchema();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -33,24 +32,23 @@ const CompleteRegistration = () => {
       username: '',
       first_name: '',
       last_name: '',
-      email: email || "",
+      email: email || '', // Asegura un valor válido inicial
     },
   });
 
-  if (!googleId || !email) {
-    return <div>Missing parameters. Please try again.</div>;
-  }
+  useEffect(() => {
+    console.log("Errores de validación:", form.formState.errors); // Log de errores
+  }, [form.formState.errors]);
 
   const onSubmit = async (data: any) => {
-    console.log(data)
+    console.log("Formulario enviado con datos:", data); // Log de prueba
     try {
-      console.log("Tried to submit google")
       setIsLoading(true);
       const response = await apiClient.post('/complete-registration', {
         ...data,
         googleId,
       });
-      console.log(response.data)
+      console.log(response.data);
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         router.push('/');
@@ -61,6 +59,10 @@ const CompleteRegistration = () => {
       setIsLoading(false);
     }
   };
+
+  if (!googleId || !email) {
+    return <div>Loading parameters...</div>;
+  }
 
   return (
     <Form {...form}>
@@ -100,5 +102,6 @@ const CompleteRegistration = () => {
     </Form>
   );
 };
+
 
 export default CompleteRegistration;
