@@ -1,10 +1,16 @@
+"use client"
 import HeaderBox from '@/components/HeaderBox'
 import PaymentTransferForm from '@/components/PaymentTransferForm'
 import { testAccounts } from '@/constants'
+import { useAppStore } from '@/store'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 const Transfer = () => {
-
+  const {userAccounts} = useAppStore()
+  const router = useRouter()
+  if (!userAccounts) router.push("/")
+  console.log(userAccounts)
   return (
     <section className='payment-transfer'>
       <HeaderBox
@@ -13,7 +19,7 @@ const Transfer = () => {
       />
       <section className='size-full pt-5'>
         <PaymentTransferForm
-          accounts={testAccounts}
+          accounts={userAccounts!}
         />
       </section>
     </section>

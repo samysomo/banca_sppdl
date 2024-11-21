@@ -113,7 +113,7 @@ const AuthForm = ({ type }: { type: string }) => {
               height={34}
               alt="Horizon logo"
             />
-            <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Horizon</h1>
+            <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">SPPDL</h1>
           </Link>
 
           <div className="flex flex-col gap-1 md:gap-3">
@@ -134,14 +134,14 @@ const AuthForm = ({ type }: { type: string }) => {
                 <>
                   <div className="flex gap-4">
                     <CustomInput control={form.control} name='first_name' label="First Name" placeholder='Enter your first name' />
-                    <CustomInput control={form.control} name='last_name' label="Last Name" placeholder='Enter your first name' />
+                    <CustomInput control={form.control} name='last_name' label="Last Name" placeholder='Enter your last name' />
                   </div>
                   <CustomInput control={form.control} name='email' label="Email" placeholder='Enter your email' />
                  
                 </>
               )}
 
-              <CustomInput control={form.control} name='username' label="Username" placeholder='Enter your specific address' />
+              <CustomInput control={form.control} name='username' label="Username" placeholder='Enter your username' />
               <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' />
 
               <div className="flex flex-col gap-4">

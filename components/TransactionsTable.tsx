@@ -1,3 +1,4 @@
+"use client"
 import {
     Table,
     TableBody,
@@ -8,7 +9,11 @@ import {
     TableRow,
   } from "@/components/ui/table"
 import { transactionTypeStyles } from "@/constants"
-import { cn, formatAmount, formatDateTime, getTransactionStatus, removeSpecialCharacters } from "@/lib/utils"
+import { getTransactionsByAccountId } from "@/lib/actions/transaction.actions"
+import { cn, formatAmount, getTransactionStatus, removeSpecialCharacters } from "@/lib/utils"
+import { notFound } from "next/navigation"
+import { useEffect, useState } from "react"
+import { string } from "zod"
   
 
 
@@ -27,7 +32,25 @@ const CategoryBadge = ({type}: CategoryBadgeProps) => {
     )
 }
 
-const TransactionsTable = ({transactions} : TransactionTableProps) => {
+const TransactionsTable = ({account_id} : TransactionTableProps) => {
+    const [movements, setMovements] = useState<any>(null)
+    const token = localStorage.getItem("token")
+    if (!token) return notFound()
+    
+    useEffect(() => {
+      const getMovements = async() => {
+        const transactions = await getTransactionsByAccountId({account_id, token})
+        if (transactions) {
+            setMovements(transactions)
+        } else {
+            console.log("No hay movimientos")
+        }
+      }
+      getMovements()
+    }, [])
+    
+    if (!movements)return null
+    if((typeof movements === "string") || !movements) return <div className="text-center mt-10">No hay movimientos</div>
   return (
     <Table>
         <TableHeader className="bg-[#f9fafb]">
@@ -39,29 +62,41 @@ const TransactionsTable = ({transactions} : TransactionTableProps) => {
             </TableRow>
         </TableHeader>
         <TableBody>
-            {transactions.map((transaction : Transaction) => {
+            {movements.map((transaction : Transaction | Transfer) => {
+                const isTransaction = 'transaction_id' in transaction;
                 const amount = formatAmount(transaction.amount)
+                const description = isTransaction
+                ? transaction.description
+                : transaction.description;
+                const date = isTransaction
+                ? transaction.transaction_date
+                : transaction.transfer_date;
+                const type = isTransaction
+                ? transaction.transaction_type
+                : transaction.from_account_id  === account_id
+                    ? "transferFrom"
+                    : "transferTo"
                 return (
-                    <TableRow key={transaction.transaction_id}>
+                    <TableRow key={isTransaction ? transaction.transaction_id : transaction.transfer_id}>
                         <TableCell>
                             <div>
                                 <h1>
-                                    {transaction.descripcion}
+                                    {description}
                                 </h1>
                             </div>
                         </TableCell>
                         <TableCell>
-                            {transaction.transaction_type === "deposit"
+                            { type === "transferTo"
                                 ? amount
                                 :  `-${amount}`
                             }
                         </TableCell>
                         <TableCell>
-                            {transaction.transaction_date}
+                            {date}
                         </TableCell>
                         <TableCell>
                             <CategoryBadge
-                                type={transaction.transaction_type}
+                                type={type}
                             />
                         </TableCell>
                     </TableRow>

@@ -1,23 +1,64 @@
 "use server";
 
-import { ID, Query } from "node-appwrite";
-import { parseStringify } from "../utils";
+import { apiClient } from "../apiClient";
 
-const {
-  APPWRITE_DATABASE_ID: DATABASE_ID,
-  APPWRITE_TRANSACTION_COLLECTION_ID: TRANSACTION_COLLECTION_ID,
-} = process.env;
-
-export const createTransaction = async (transaction: CreateTransactionProps) => {
+export const createTransfer = async ({token, transactionData}: CreateTransfer) => {
   try {
+    const transaction : any = await apiClient.post(
+      "/movements/transfers",
+       transactionData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }
+    );
+    if (transaction.status === 200) {
+      return transaction.data.message
+    } else {
+       return "Error al crear la cuenta"
+    }
   } catch (error) {
     console.log(error);
   }
 }
 
-export const getTransactionsByBankId = async ({bankId}: getTransactionsByBankIdProps) => {
+export const getTransactionsByAccountId = async ({account_id, token}: getTransactionsByBankIdProps) => {
   try {
-    
+    const transactions : any = await apiClient.get(
+      `/movements/all/${account_id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }
+    );
+    if (transactions.status === 200) {
+      return transactions.data.message
+    } else {
+       return "Error al obtener las transacciones"
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const createTransaction = async ({token, transactionData}: CreateTransactionProps) => {
+  try {
+    const transaction : any = await apiClient.post(
+      "/movements/transactions",
+       transactionData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }
+    );
+    if (transaction.status === 200) {
+      return transaction.data.message
+    } else {
+       return "Error al hacer la transferencia"
+    }
   } catch (error) {
     console.log(error);
   }

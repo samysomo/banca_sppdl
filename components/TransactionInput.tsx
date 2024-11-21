@@ -1,21 +1,20 @@
-import React from 'react'
-import { FormControl, FormField, FormLabel, FormMessage } from './ui/form'
-import { Input } from './ui/input'
-import { Button } from './ui/button'
-import {Control, FieldPath} from "react-hook-form"
-import { authFormSchema, createAccountFormSchema } from '@/lib/utils'
-import { z } from 'zod'
+import { Control, FieldPath } from "react-hook-form";
+import { FormControl, FormField, FormLabel, FormMessage } from "./ui/form";
+import { Input } from "./ui/input";
+import { z } from "zod";
+import { makeTransactionFormSchema } from "@/lib/utils";
 
-const formSchema = authFormSchema("sign-up")
+const transactionFormSchema = makeTransactionFormSchema()
 
 type CustomInputProps = {
-    control : Control<z.infer<typeof formSchema>>, 
-    name : FieldPath<z.infer<typeof formSchema>>,
+    control : Control<z.infer<typeof transactionFormSchema>>, 
+    name : FieldPath<z.infer<typeof transactionFormSchema>>,
     label: string, 
-    placeholder: string
+    placeholder: string,
+    type: string;
 }
 
-const CustomInput = ({control, name, label, placeholder}: CustomInputProps) => {
+const TransactionInput = ({control, name, label, placeholder, type}: CustomInputProps) => {
   return (
     <FormField
         control={control}
@@ -30,7 +29,7 @@ const CustomInput = ({control, name, label, placeholder}: CustomInputProps) => {
                 <Input 
                     placeholder={placeholder}
                     className='input-class' 
-                    type={name === "password" ? "password" : "text"}
+                    type={type}
                     {...field}
                 />
                 </FormControl>
@@ -44,4 +43,4 @@ const CustomInput = ({control, name, label, placeholder}: CustomInputProps) => {
   )
 }
 
-export default CustomInput
+export default TransactionInput

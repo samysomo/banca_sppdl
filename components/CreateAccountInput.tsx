@@ -6,16 +6,17 @@ import {Control, FieldPath} from "react-hook-form"
 import { authFormSchema, createAccountFormSchema } from '@/lib/utils'
 import { z } from 'zod'
 
-const formSchema = authFormSchema("sign-up")
+const accountFormSchema = createAccountFormSchema()
 
 type CustomInputProps = {
-    control : Control<z.infer<typeof formSchema>>, 
-    name : FieldPath<z.infer<typeof formSchema>>,
+    control : Control<z.infer<typeof accountFormSchema>>, 
+    name : FieldPath<z.infer<typeof accountFormSchema>>,
     label: string, 
-    placeholder: string
+    placeholder: string,
+    type: string;
 }
 
-const CustomInput = ({control, name, label, placeholder}: CustomInputProps) => {
+const CreateAccountInput = ({control, name, label, placeholder, type}: CustomInputProps) => {
   return (
     <FormField
         control={control}
@@ -30,7 +31,7 @@ const CustomInput = ({control, name, label, placeholder}: CustomInputProps) => {
                 <Input 
                     placeholder={placeholder}
                     className='input-class' 
-                    type={name === "password" ? "password" : "text"}
+                    type={type}
                     {...field}
                 />
                 </FormControl>
@@ -44,4 +45,4 @@ const CustomInput = ({control, name, label, placeholder}: CustomInputProps) => {
   )
 }
 
-export default CustomInput
+export default CreateAccountInput

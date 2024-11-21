@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import BankCard from './BankCard'
 
-const RightSidebar = ({user, transactions, account, openModal}: RightSidebarProps) => {
+const RightSidebar = ({user, account, openModal}: RightSidebarProps) => {
   return (
     <aside className='right-sidebar'>
         <section className='flex flex-col pb-8'>
@@ -33,7 +33,7 @@ const RightSidebar = ({user, transactions, account, openModal}: RightSidebarProp
                         alt='plus'
                     />
                     <h2 className='text-14 font-semibold text-gray-600'>
-                        Add Bank
+                        Add Account
                     </h2>
                 </button>
             </div>

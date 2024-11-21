@@ -22,7 +22,6 @@ export const getUserInfo = async({token}: getUserInfoProps) => {
           }
         );
         if (getUser.data) {
-          console.log(getUser)
           return getUser.data.message
         }
 
@@ -40,23 +39,6 @@ export const logoutAccount = async () => {
         return null
     }
 }
-
-
-export const createBankAccount = async ({
-    userId,
-    bankId,
-    accountId,
-    accessToken,
-    fundingSourceUrl,
-    shareableId,
-  }: createBankAccountProps) => {
-    try {
-  
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
 
 export const getBanks = async ({userId} : getBanksProps) => {
     try {

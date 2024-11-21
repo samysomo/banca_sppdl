@@ -36,10 +36,10 @@ declare type NewUserParams = {
 };
 
 declare type Account = {
-  account_id: number;
   balance: number;
-  user_id: number;
   account_type: string;
+  account_id: number;
+  card_number: string
 };
 
 declare type Transaction = {
@@ -48,8 +48,18 @@ declare type Transaction = {
   account_id: string;
   amount: number;
   transaction_date: string;
-  descripcion: string;
+  description: string;
 };
+
+declare type Transfer = {
+  amount: number
+  date: string
+  description : string
+  from_account_id : number
+  to_account_id : number
+  transfer_date : string
+  transfer_id : number
+}
 
 declare type Bank = {
   $id: string;
@@ -114,7 +124,7 @@ declare interface CreditCardProps {
 
 declare interface BankInfoProps {
   account: Account;
-  appwriteItemId?: string;
+  account_id?: string;
   type: "full" | "card";
 }
 
@@ -126,7 +136,7 @@ declare interface HeaderBoxProps {
 }
 
 declare interface MobileNavProps {
-  user: User;
+  user: User | undefined;
 }
 
 declare interface PageHeaderProps {
@@ -169,7 +179,7 @@ declare interface BankDropdownProps {
 
 declare interface BankTabItemProps {
   account: Account;
-  appwriteItemId?: string;
+  account_id?: number;
 }
 
 declare interface TotlaBalanceBoxProps {
@@ -178,23 +188,22 @@ declare interface TotlaBalanceBoxProps {
 }
 
 declare interface FooterProps {
-  user: User;
+  user: User | undefined;
   type?: "desktop" | "mobile"
 }
 
 declare interface RightSidebarProps {
   user: User;
-  transactions: Transaction[];
-  account: Account;
+  account?: Account | null;
   openModal: Dispatch<SetStateAction<boolean>>;
 }
 
 declare interface SiderbarProps {
-  user: User;
+  user: User | undefined;
 }
 
 declare interface RecentTransactionsProps {
-  transactions: Transaction[];
+  accounts: Account[];
 }
 
 declare interface TransactionHistoryTableProps {
@@ -207,7 +216,7 @@ declare interface CategoryBadgeProps {
 }
 
 declare interface TransactionTableProps {
-  transactions: Transaction[];
+  account_id: number
 }
 
 declare interface CategoryProps {
@@ -246,18 +255,33 @@ declare interface CreateFundingSourceOptions {
   _links: object; // Dwolla On Demand Authorization Link
 }
 
+declare interface CreateTransfer {
+  token: string;
+  transactionData: {
+    amount: number;
+    from_account_id: number;
+    to_account_id: number;
+    description: string;
+  }
+}
+
 declare interface CreateTransactionProps {
-  name: string;
-  amount: string;
-  senderId: string;
-  senderBankId: string;
-  receiverId: string;
-  receiverBankId: string;
-  email: string;
+  token: string;
+  transactionData : {
+    account_id : number;
+    transaction_type : string;
+    amount : number;
+    description : string;
+  }
+}
+
+declare interface Provider {
+  providerName : string;
 }
 
 declare interface getTransactionsByBankIdProps {
-  bankId: string;
+  account_id: number;
+  token: string;
 }
 
 declare interface signInProps {
@@ -274,13 +298,9 @@ declare interface exchangePublicTokenProps {
   user: User;
 }
 
-declare interface createBankAccountProps {
-  accessToken: string;
-  userId: string;
-  accountId: string;
-  bankId: string;
-  fundingSourceUrl: string;
-  shareableId: string;
+declare interface createAccountProps {
+  token: string;
+  accountData: any
 }
 
 declare interface getBanksProps {

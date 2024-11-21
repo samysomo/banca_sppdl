@@ -12,8 +12,7 @@ import {
   SelectLabel,
   SelectTrigger,
 } from "@/components/ui/select";
-import { formUrlQuery, formatAmount } from "@/lib/utils";
-import { testAccounts } from "@/constants";
+import { formatAmount } from "@/lib/utils";
 
 export const BankDropdown = ({
   accounts = [],
@@ -24,19 +23,19 @@ export const BankDropdown = ({
   const [selected, setSelected] = useState(accounts[0]);
 
   const handleAccountChange = (id: string) => {
-    console.log(id)
     const account = accounts.find(a => a.account_type.toString() === id); 
     console.log(account)
-    if(account) setSelected(account);
-    if (setValue) {
-        setValue("senderBank", id);
+    if(account){
+      setSelected(account)
+      if (setValue) {
+        setValue("from_account_id", account.account_id.toString());
       }
-    console.log(selected)
+    };
   }
 
   return (
     <Select
-      defaultValue={selected.account_id.toString()}
+      defaultValue={accounts[0].account_id.toString()}
       onValueChange={(value) => handleAccountChange(value)}
     >
       <SelectTrigger

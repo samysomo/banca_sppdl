@@ -4,21 +4,21 @@ import HeaderBox from '@/components/HeaderBox'
 import RecentTransactions from '@/components/RecentTransactions'
 import RightSidebar from '@/components/RightSidebar'
 import TotalBalanceBox from '@/components/TotalBalanceBox'
-import { testAccounts, testTransactions, testUsers } from '@/constants'
+import { getAccounts } from '@/lib/actions/accounts.actions'
 import { getUserInfo } from '@/lib/actions/user.actions'
 import { useAppStore } from '@/store'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const Home = () => {
-    const {userInfo, setUserInfo} = useAppStore()
-    const [accounts, setAccounts] = useState([]);
+    const {userInfo, setUserInfo, userAccounts, setUserAccounts} = useAppStore()
+    const [totalBalance, setTotalBalance] = useState(0)
     const [transactions, setTransactions] = useState([]);
     const [showCreateAccountModal, setShowCreateAccountModal] = useState(false);
     const router = useRouter();
-  
+    const token = localStorage.getItem('token');
     useEffect(() => {
-      const token = localStorage.getItem('token');
+  
       const expirationTime = localStorage.getItem("tokenExpiration");
 
       if (!token || !expirationTime) {
@@ -46,44 +46,98 @@ const Home = () => {
             router.push('/sign-in');
           }
         };
+
+        const fetchAccounts = async () => {
+          try {
+            const accountsData = await getAccounts({ token });
+            
+            if (accountsData && accountsData.length > 0) {
+              setUserAccounts(accountsData);
+              const total = accountsData.reduce((acc: number, account: Account) => acc + Number(account.balance), 0);
+              setTotalBalance(total);
+            } else {
+              setUserAccounts([]); 
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+
         fetchUserData();
+        fetchAccounts();
       },[]);
   
     if (!userInfo) {
         
       return <div>Loading...</div>;
     }
-  return (
-    <section className='home'>
-        <div className='home-content'>
+
+
+    if (userAccounts && userAccounts.length === 0) {
+      console.log(userAccounts)
+      console.log(totalBalance)
+      return (
+        <section className='home'>
+          <div className='home-content'>
             <header className='home-header'>
-                <HeaderBox
-                    type="greeting"
-                    title="Welcome"
-                    user={userInfo.first_name}
-                    subtext="Access and manage your account and transactions efficiently"
-                />
-                <TotalBalanceBox
-                    accounts={testAccounts}
-                    totalCurrentBalance={2000}
-                />
+              <HeaderBox
+                type="greeting"
+                title="Welcome"
+                user={userInfo.first_name}
+                subtext="No tienes cuentas creadas aún"
+              />
             </header>
-            <RecentTransactions 
-                transactions={testTransactions}
-            />
-        </div>
-        <RightSidebar
+            <div>
+              <p>No tienes ninguna cuenta, crea una para empezar a administrar tus transacciones.</p>
+            </div>
+          </div>
+          <RightSidebar
             user={userInfo}
-            transactions={testTransactions}
-            account={testAccounts[0]}
+            account={null}
             openModal={setShowCreateAccountModal}
-        />
-        <CreateAccountModal
+          />
+          <CreateAccountModal
             isOpen={showCreateAccountModal}
             setShowCreateAccountModal={setShowCreateAccountModal}
-        />
-    </section>
-  )
+          />
+        </section>
+      );
+    } 
+    if (userAccounts && userAccounts[0]) {
+      return (
+        <section className='home'>
+            <div className='home-content'>
+                <header className='home-header'>
+                    <HeaderBox
+                        type="greeting"
+                        title="Welcome"
+                        user={userInfo.first_name}
+                        subtext="Access and manage your account and transactions efficiently"
+                    />
+                    <TotalBalanceBox
+                        accounts={userAccounts!}
+                        totalCurrentBalance={totalBalance}
+                    />
+                </header>
+                {
+    
+                }
+                <RecentTransactions 
+                    accounts={userAccounts!}
+                />
+            </div>
+            <RightSidebar
+                user={userInfo}
+                account={userAccounts![0]}
+                openModal={setShowCreateAccountModal}
+            />
+            <CreateAccountModal
+                isOpen={showCreateAccountModal}
+                setShowCreateAccountModal={setShowCreateAccountModal}
+            />
+        </section>
+      )
+    }
 }
 
 export default Home
