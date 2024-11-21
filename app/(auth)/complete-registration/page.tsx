@@ -25,8 +25,11 @@ const CompleteRegistration = () => {
     const params = new URLSearchParams(window.location.search);
     setGoogleId(params.get('googleId'));
     setEmail(params.get('email'));
-    console.log(googleId , "& ", email)
   }, []);
+
+  useEffect(() => {
+    console.log("Google ID:", googleId, "Email:", email);
+  }, [googleId, email]); 
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
