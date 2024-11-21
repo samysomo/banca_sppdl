@@ -18,8 +18,6 @@ const CompleteRegistration = () => {
   const [googleId, setGoogleId] = useState<string | null>(null);
   const [email, setEmail] = useState<string | null>(null);
 
-  const formSchema = completeRegistrationSchema();
-
   useEffect(() => {
     // Solo se ejecuta en el cliente
     const params = new URLSearchParams(window.location.search);
@@ -27,9 +25,7 @@ const CompleteRegistration = () => {
     setEmail(params.get('email'));
   }, []);
 
-  useEffect(() => {
-    console.log("Google ID:", googleId, "Email:", email);
-  }, [googleId, email]); 
+  const formSchema = completeRegistrationSchema();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,7 +33,7 @@ const CompleteRegistration = () => {
       username: '',
       first_name: '',
       last_name: '',
-      email: email || '',
+      email: email || "",
     },
   });
 
@@ -46,6 +42,7 @@ const CompleteRegistration = () => {
   }
 
   const onSubmit = async (data: any) => {
+    console.log(data)
     try {
       console.log("Tried to submit google")
       setIsLoading(true);
