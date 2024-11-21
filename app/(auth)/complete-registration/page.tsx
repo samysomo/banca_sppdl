@@ -23,6 +23,7 @@ const CompleteRegistration = () => {
   useEffect(() => {
     // Solo se ejecuta en el cliente
     const params = new URLSearchParams(window.location.search);
+    console.log(params)
     setGoogleId(params.get('googleId'));
     setEmail(params.get('email'));
   }, []);
@@ -43,12 +44,13 @@ const CompleteRegistration = () => {
 
   const onSubmit = async (data: any) => {
     try {
+      console.log("Tried to submit google")
       setIsLoading(true);
       const response = await apiClient.post('/complete-registration', {
         ...data,
         googleId,
       });
-
+      console.log(response.data)
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         router.push('/');
