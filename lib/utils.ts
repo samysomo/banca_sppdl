@@ -185,5 +185,5 @@ export const completeRegistrationSchema = () => z.object({
   username: z.string().min(3,'Username is required'),
   first_name: z.string().min(3,'First Name is required'),
   last_name: z.string().min(3,'Last Name is required'),
-  email: z.string().email()
+  // email: z.string().email()
 });

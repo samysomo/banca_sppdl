@@ -32,7 +32,6 @@ const CompleteRegistration = () => {
       username: '',
       first_name: '',
       last_name: '',
-      email: email || '', // Asegura un valor válido inicial
     },
   });
 
@@ -46,6 +45,7 @@ const CompleteRegistration = () => {
       setIsLoading(true);
       const response = await apiClient.post('/complete-registration', {
         ...data,
+        email,
         googleId,
       });
       console.log(response.data);
